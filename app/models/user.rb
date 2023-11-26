@@ -7,7 +7,7 @@ class User < ApplicationRecord
   with_options presence: true do
     # 半角英数字（空文字NG）以外の場合には、メッセージを出す
     PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i.freeze
-    validates_format_of :password, with: PASSWORD_REGEX, message: 'には英字と数字の両方を含めて設定してください'
+    validates_format_of :password, with: PASSWORD_REGEX, message: 'Include both letters and numbers'
 
     validates :nickname
   
