@@ -6,11 +6,11 @@ class User < ApplicationRecord
 
   with_options presence: true do
     # 半角英数字（空文字NG）以外の場合には、メッセージを出す
-    PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?[\d])[a-z\d]+\z/i.freeze
+    PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i
     validates_format_of :password, with: PASSWORD_REGEX, message: 'Include both letters and numbers'
 
     validates :nickname
-  
+
     # 全角ひらがな、全角カタカナ、漢字
     validates :family_name, format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/ }
     validates :first_name, format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/ }
