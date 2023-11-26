@@ -66,9 +66,21 @@ RSpec.describe User, type: :model do
         @user.valid?
         expect(@user.errors.full_messages).to include('Password is too short (minimum is 6 characters)')
       end
-      it 'password（password_confirmation含む）が半角英数字でないと登録できない' do
+      it 'password（password_confirmation含む）が半角数字のみのパスワードでは登録できない' do
         @user.password = '123456'
         @user.password_confirmation = '123456'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password Include both letters and numbers')
+      end
+      it 'password（password_confirmation含む）が半角英字のみのパスワードでは登録できない' do
+        @user.password = 'abcdef'
+        @user.password_confirmation = 'abcdef'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Password Include both letters and numbers')
+      end
+      it 'password（password_confirmation含む）が全角文字を含むパスワードでは登録できない' do
+        @user.password = 'abｃ12３'
+        @user.password_confirmation = 'abｃ12３'
         @user.valid?
         expect(@user.errors.full_messages).to include('Password Include both letters and numbers')
       end
@@ -101,6 +113,26 @@ RSpec.describe User, type: :model do
       end
       it '名前のフリガナが全角（カタカナ）でないと登録できない' do
         @user.first_name_kana = 'りくたろう'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('First name kana is invalid')
+      end
+      it '名字（全角）が空だと登録できない' do
+        @user.family_name = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Family name is invalid')
+      end
+      it '名前（全角）が空だと登録できない' do
+        @user.first_name = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include('First name is invalid')
+      end
+      it '名字（カナ）が空だと登録できない' do
+        @user.family_name_kana = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Family name kana is invalid')
+      end
+      it '名前（カナ）が空だと登録できない' do
+        @user.first_name_kana = ''
         @user.valid?
         expect(@user.errors.full_messages).to include('First name kana is invalid')
       end
