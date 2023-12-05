@@ -39,7 +39,7 @@ RSpec.describe OrderForm, type: :model do
         expect(@order_form).to be_valid
       end
       it '電話番号が11番桁以内かつハイフンなしであれば保存できる' do
-        @order_form.phone_number = 12345_678910
+        @order_form.phone_number = 12_345_678_910
         expect(@order_form).to be_valid
       end
     end
@@ -61,7 +61,7 @@ RSpec.describe OrderForm, type: :model do
         expect(@order_form.errors.full_messages).to include("Postcode can't be blank", 'Postcode is invalid. Include hyphen(-)')
       end
       it '郵便番号にハイフンがないと保存できない' do
-        @order_form.postcode = 123_4567
+        @order_form.postcode = 1_234_567
         @order_form.valid?
         expect(@order_form.errors.full_messages).to include('Postcode is invalid. Include hyphen(-)')
       end
@@ -96,7 +96,7 @@ RSpec.describe OrderForm, type: :model do
         expect(@order_form.errors.full_messages).to include('Phone number is invalid')
       end
       it '電話番号が12桁以上あると保存できないこと' do
-        @order_form.phone_number = 12345678910_11_12
+        @order_form.phone_number = 123_456_789_101_112
         @order_form.valid?
         expect(@order_form.errors.full_messages).to include('Phone number is invalid')
       end
